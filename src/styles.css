@@ -1,0 +1,44 @@
+/* Simplified combined stylesheet for the project (mobile-friendly & themed)
+   Replace/extend as needed. The production version used earlier in the conversation
+   is more extensive — paste that CSS here if you want the full feature set.
+*/
+:root{
+  --bg:#fff9f2; --card:#fff; --accent:#f6b93b; --muted:#6b6b6b; --text:#1f1f1f; --bee-black:#1a1200;
+  --container-width:1100px; --shadow:0 10px 30px rgba(30,30,30,0.08);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+[data-theme="dark"]{
+  --bg:#0f0f10; --card:#121214; --muted:#9aa3a5; --text:#e8eef1; --toast-bg:#f6b93b; --toast-text:#1a1200;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0; background:linear-gradient(180deg,#fff 0%,var(--bg) 100%); color:var(--text); -webkit-font-smoothing:antialiased;}
+.container{max-width:var(--container-width); margin:0 auto; padding:1rem}
+
+/* Header basics */
+.header{position:sticky; top:0; background:transparent; z-index:50; border-bottom:1px solid rgba(0,0,0,0.04);}
+.header-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.6rem 0}
+.brand{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:var(--text); font-weight:700}
+.nav-desktop{display:none}
+.header-actions{display:flex; gap:.5rem; align-items:center}
+.theme-toggle{background:transparent; border:1px solid rgba(0,0,0,0.06); padding:.4rem .6rem; border-radius:8px; cursor:pointer}
+.cart-btn{background:var(--accent); color:var(--bee-black); padding:.5rem .7rem; border-radius:10px; font-weight:600}
+
+/* Hero */
+.hero{display:grid; grid-template-columns:1fr 360px; gap:1rem; align-items:center; padding:1.5rem 0; position:relative; overflow:visible;}
+.hero-media img{width:100%; border-radius:12px; box-shadow:var(--shadow)}
+.hero::before{ content:""; position:absolute; inset:0; background-image:url('/assets/honeycomb.svg'); background-repeat:repeat; background-size:220px 220px; opacity:0.65; pointer-events:none; }
+
+/* Cards & grid */
+.grid{display:grid; gap:1rem}
+.products-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* Basic responsive */
+@media (max-width:900px){
+  .nav-desktop{display:none}
+  .hero{grid-template-columns:1fr; text-align:center}
+  .main-content{ padding-bottom:84px; } /* bottom nav accommodation */
+}
+@media (min-width:901px){
+  .nav-desktop{display:flex; gap:1rem}
+}
