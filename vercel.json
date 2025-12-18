@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/favicon.ico", "destination": "/assets/hero-placeholder.svg" },
+    { "source": "/*", "destination": "/index.html" }
+  ]
+}
