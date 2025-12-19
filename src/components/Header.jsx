@@ -1,76 +1,74 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
+import React, {useState} from 'react';
+import PropTypes from 'prop-types';
+import { useTheme, useCart } from '../hooks';
 
-// Header component - restores ThemeContext usage, mobile nav behavior and external links
-export default function Header() {
-  const { theme, toggleTheme } = useContext(ThemeContext || {});
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
+export default function Header({ siteTitle = 'Busy Bee Crochet' }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const { totalItems = 0, openCart } = useCart();
 
-  // Close the mobile menu when a global event is fired (allows other components like ProductCard to request it)
-  useEffect(() => {
-    const handleClose = () => setIsMenuOpen(false);
-    window.addEventListener('closeMobileMenu', handleClose);
-    return () => window.removeEventListener('closeMobileMenu', handleClose);
-  }, []);
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    if (setTheme) setTheme(next);
+  };
 
-  const handleNavClick = (to) => (e) => {
-    // If it's a regular internal navigation, close menu and navigate
-    setIsMenuOpen(false);
-    if (to) {
-      navigate(to);
-    }
+  const handleNavClick = () => {
+    // close the mobile menu when navigating
+    if (mobileOpen) setMobileOpen(false);
   };
 
   return (
-    <header className={`site-header ${theme || ''}`}>
+    <header className="site-header">
       <div className="container header-inner">
-        <Link to="/" className="logo" onClick={handleNavClick('/')}>Busy Bee Crochet</Link>
+        <div className="brand">
+          <a href="/" onClick={handleNavClick} aria-label={siteTitle}>
+            {siteTitle}
+          </a>
+        </div>
 
-        <button
-          className="mobile-menu-toggle"
-          aria-expanded={isMenuOpen}
-          onClick={() => setIsMenuOpen((s) => !s)}
-          aria-label="Toggle navigation"
-        >
-          {isMenuOpen ? 'Close' : 'Menu'}
-        </button>
-
-        <nav className={`site-nav ${isMenuOpen ? 'open' : ''}`}>
-          <ul>
-            <li>
-              <button className="nav-link" onClick={handleNavClick('/')}>Home</button>
-            </li>
-            <li>
-              <button className="nav-link" onClick={handleNavClick('/shop')}>Shop</button>
-            </li>
-            <li>
-              <button className="nav-link" onClick={handleNavClick('/about')}>About</button>
-            </li>
-            <li>
-              <button className="nav-link" onClick={handleNavClick('/contact')}>Contact</button>
-            </li>
-            <li>
-              {/* External link - opens in new tab */}
-              <a
-                href="https://www.etsy.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMenuOpen(false)}
-                className="nav-link"
-              >
-                Etsy
-              </a>
-            </li>
-            <li>
-              <button className="theme-toggle" onClick={() => { toggleTheme && toggleTheme(); setIsMenuOpen(false); }}>
-                {theme === 'dark' ? 'Light' : 'Dark'}
-              </button>
-            </li>
-          </ul>
+        <nav className={`main-nav ${mobileOpen ? 'open' : ''}`} aria-label="Main navigation">
+          <a href="/" onClick={handleNavClick}>Home</a>
+          <a href="/shop" onClick={handleNavClick}>Shop</a>
+          <a href="/about" onClick={handleNavClick}>About</a>
+          <a href="/contact" onClick={handleNavClick}>Contact</a>
         </nav>
+
+        <div className="header-actions">
+          <button
+            type="button"
+            aria-pressed={theme === 'dark'}
+            onClick={toggleTheme}
+            title="Toggle theme"
+            className="btn-theme"
+          >
+            {theme === 'dark' ? '🌙' : '☀️'}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => openCart && openCart()}
+            title="Open cart"
+            className="btn-cart"
+          >
+            🛒
+            <span className="cart-count" aria-hidden={totalItems === 0}>{totalItems}</span>
+            <span className="sr-only">Open shopping cart ({totalItems} items)</span>
+          </button>
+
+          <button
+            className="btn-mobile-toggle"
+            aria-expanded={mobileOpen}
+            aria-label="Toggle navigation"
+            onClick={() => setMobileOpen(prev => !prev)}
+          >
+            {mobileOpen ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
     </header>
   );
 }
+
+Header.propTypes = {
+  siteTitle: PropTypes.string,
+};
