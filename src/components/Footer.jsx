@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { ThemeContext } from '../context/ThemeContext';
+
 export default function Footer() {
+  const { theme } = useContext(ThemeContext || {});
+
+  const handleInternalClick = (e) => {
+    // Close mobile menu if present
+    try {
+      window.dispatchEvent(new Event('closeMobileMenu'));
+    } catch (err) {}
+  };
+
   return (
-    <footer className="footer">
-      <div className="container" style={{display:'flex', justifyContent:'space-between', gap:'1rem', flexWrap:'wrap'}}>
-        <div>&copy; {new Date().getFullYear()} Busy Bee Crochet — Handmade</div>
-        <div><a href="mailto:busybeecrochet@example.com">Email</a> · <a href="#">Instagram</a> · <a href="#">Etsy</a></div>
+    <footer className={`site-footer ${theme || ''}`}>
+      <div className="container footer-inner">
+        <div className="footer-links">
+          <Link to="/" onClick={handleInternalClick}>Home</Link>
+          <Link to="/shop" onClick={handleInternalClick}>Shop</Link>
+          <Link to="/about" onClick={handleInternalClick}>About</Link>
+        </div>
+
+        <div className="social-links">
+          <a href="https://www.etsy.com/" target="_blank" rel="noopener noreferrer">Etsy</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+
+        <div className="copyright">© {new Date().getFullYear()} Busy Bee Crochet</div>
       </div>
     </footer>
   );

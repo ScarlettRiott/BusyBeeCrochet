@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Bee from './Bee';
-import { formatCurrency } from '../utils/format';
+import { CartContext } from '../context/CartContext';
 
+// ProductCard - ensures Buy button adds to cart and requests mobile menu to close
 export default function ProductCard({ product }) {
+  const { addToCart } = useContext(CartContext || {});
+
+  const handleBuy = (e) => {
+    e.preventDefault();
+    if (addToCart) {
+      addToCart({ ...product, quantity: 1 });
+    }
+    // Ask any listening header/mobile menu to close
+    try {
+      window.dispatchEvent(new Event('closeMobileMenu'));
+    } catch (err) {
+      // ignore in environments where dispatching isn't available
+    }
+  };
+
   return (
-    <article className="card product-card-animated">
-      <div className="card-media">
-        <img src={product.image} alt={product.title} />
-        <span className="bee-mini"><Bee size={28} /></span>
-      </div>
-      <div className="card-body">
-        <h3>{product.title}</h3>
-        <div style={{color:'var(--muted)'}}>{product.short}</div>
-        <div style={{marginTop:'auto', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-          <strong>{formatCurrency(product.price, product.currency)}</strong>
-          <div>
-            <Link className="btn btn-outline" to={`/product/${product.id}`} style={{marginRight:8}}>View</Link>
-            <Link className="btn btn-primary" to={`/product/${product.id}`}>Buy</Link>
-          </div>
-        </div>
+    <article className="product-card">
+      <Link to={`/product/${product?.id}`} className="product-link">
+        <img src={product?.image} alt={product?.title} />
+        <h3>{product?.title}</h3>
+      </Link>
+      <div className="product-meta">
+        <span className="price">${product?.price}</span>
+        <button className="buy-button" onClick={handleBuy}>Buy</button>
       </div>
     </article>
   );
