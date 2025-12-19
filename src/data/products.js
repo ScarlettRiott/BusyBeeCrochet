@@ -1,41 +1,32 @@
-/*
-  Product catalog (simple static list).
-  Using SVG placeholder assets in public/assets/ for quick local preview.
-*/
+// Product data for BusyBeeCrochet
+// Updated product images for owl, pouf, and beanie to use Unsplash placeholders
+
 const products = [
   {
-    id: 'owl',
-    title: 'Amigurumi Owl',
-    price: 28.0,
-    currency: 'USD',
-    image: '/assets/product-owl.svg',
-    thumbnail: '/assets/product-owl-thumb.svg',
-    short: 'Soft and squishy owl plush. Multiple colors.',
-    description: 'Handmade amigurumi owl crafted with soft acrylic yarn. Approximately 8" tall.',
-    sku: 'BB-OWL-001'
+    id: 1,
+    slug: 'owl',
+    name: 'Crochet Owl Plush',
+    price: 24.0,
+    image: 'https://source.unsplash.com/featured/?owl,crochet,plush',
+    description: 'Handmade crochet owl plush - perfect for gifting.'
   },
   {
-    id: 'pouf',
-    title: 'Cozy Pouf',
-    price: 65.0,
-    currency: 'USD',
-    image: '/assets/product-cozy.svg',
-    thumbnail: '/assets/product-cozy-thumb.svg',
-    short: 'Chunky crochet pouf — comfy living room accent.',
-    description: 'Hand-crocheted chunky pouf. Durable and cushy; comes in several colors.',
-    sku: 'BB-POUF-001'
+    id: 2,
+    slug: 'pouf',
+    name: 'Crochet Pouf',
+    price: 79.0,
+    image: 'https://source.unsplash.com/featured/?pouf,ottoman,crochet',
+    description: 'Cozy pouf to add texture and warmth to any room.'
   },
   {
-    id: 'beanie',
-    title: 'Chunky Beanie',
-    price: 22.0,
-    currency: 'USD',
-    image: '/assets/product-hat.svg',
-    thumbnail: '/assets/product-hat-thumb.svg',
-    short: 'Warm hand-crocheted beanie.',
-    description: 'Cozy chunky beanie with a soft fit. One size fits most.',
-    sku: 'BB-BEANIE-001'
+    id: 3,
+    slug: 'beanie',
+    name: 'Cozy Crochet Beanie',
+    price: 18.0,
+    image: 'https://source.unsplash.com/featured/?beanie,hat,knit',
+    description: 'Warm and stylish beanie made from soft yarn.'
   }
+  // Note: If you have additional products in this file, merge these image URLs into the existing product objects.
 ];
 
 export default products;
