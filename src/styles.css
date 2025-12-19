@@ -1,101 +1,60 @@
-/* Global styles and variables
-   - Dark theme variables adjusted to be fully dark
-   - Global anchor styles render links as buttons for consistent CTA appearance
-*/
+/* Scoped link styles: convert previously global link styles to utility classes
+   Use .link-btn for solid buttons and .link-ghost for ghost/outline links */
 
+/* Reset / base (preserve other project styles as needed) */
 :root {
-  /* Light theme / default */
-  --bg: #ffffff;
-  --surface: #ffffff;
-  --text: #111111;
+  --brand: #ff6f61;
+  --brand-dark: #e6554f;
   --muted: #6b6b6b;
-  --accent: #ffcc00; /* warm accent */
-  --accent-foreground: #000000;
-  --radius: 8px;
 }
 
-/* Dark theme: make backgrounds truly dark for better contrast */
-/* Cover common theme selectors used by various setups */
-[data-theme="dark"],
-.dark,
-.dark-mode,
-:root.dark {
-  --bg: #000000;            /* fully black background */
-  --surface: #0a0a0a;       /* very dark surface */
-  --text: #e8e8e8;          /* light text */
-  --muted: #9a9a9a;         /* muted text for secondary copy */
-  --accent: #ffd54a;        /* accent stays bright for contrast */
-  --accent-foreground: #0b0b0b;
-  --radius: 8px;
-}
-
-/* Base page layout */
-html, body {
-  height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Surfaces / cards */
-.card,
-.surface {
-  background: var(--surface);
-  color: var(--text);
-  border-radius: var(--radius);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-}
-
-/* Global anchor styles: render links as button-like CTAs */
-/* These styles are intentionally global to provide consistent clickable targets across the site */
-a {
-  display: inline-block;           /* keep natural flow but allow padding/size */
-  padding: 0.5rem 0.9rem;
-  background: var(--accent);
-  color: var(--accent-foreground);
+/* Button-like link */
+.link-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--brand);
+  color: white;
   text-decoration: none;
-  border-radius: 999px;             /* pill-shaped buttons */
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, transform 0.06s ease;
+  cursor: pointer;
   font-weight: 600;
-  line-height: 1;
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  border: 1px solid rgba(0,0,0,0.06);
 }
 
-a:hover,
-a:active {
+.link-btn:hover,
+.link-btn:focus {
+  background: var(--brand-dark);
   transform: translateY(-1px);
-  filter: brightness(0.98);
 }
 
-a:focus {
-  outline: 3px solid rgba(255,213,74,0.24); /* accessible focus ring using accent */
-  outline-offset: 2px;
+.link-btn:active {
+  transform: translateY(0);
 }
 
-/* Smaller/ghost link variants if site uses utility classes */
-a.ghost,
-a.link-ghost {
+/* Ghost / outline link */
+.link-ghost {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
   background: transparent;
-  color: var(--accent);
-  box-shadow: none;
-  padding: 0.25rem 0.5rem;
+  color: var(--brand-dark);
+  border-radius: 6px;
+  border: 1px solid var(--brand);
+  text-decoration: none;
+  transition: background 0.12s ease, color 0.12s ease;
+  cursor: pointer;
 }
 
-/* Ensure buttons inside forms / buttons keep their native appearance when using anchor styles */
-button a,
-button > a {
-  display: inline;
+.link-ghost:hover,
+.link-ghost:focus {
+  background: rgba(255,111,97,0.06);
 }
 
-/* Utility: restore default link appearance when explicitly needed */
-a.plain,
-a--plain {
-  background: transparent;
+/* Keep anchor base styles minimal to avoid accidental overrides */
+a {
   color: inherit;
-  text-decoration: underline;
-  box-shadow: none;
-  padding: 0;
-  border-radius: 0;
+  text-decoration: none;
 }
+
+/* Utility spacing used by header / buttons */
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
