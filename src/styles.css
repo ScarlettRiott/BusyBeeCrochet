@@ -1,60 +1,195 @@
-/* Scoped link styles: convert previously global link styles to utility classes
-   Use .link-btn for solid buttons and .link-ghost for ghost/outline links */
+/* Polished spacing & rhythm for Busy Bee Crochet
+   - Harmonized container padding and element gaps
+   - Tighter header and nav spacing
+   - Centered hero with consistent vertical rhythm
+   - Uniform product card heights and balanced actions row
+   - Button sizing unified
+   - Improved mobile spacing and bottom nav accommodation
+*/
 
-/* Reset / base (preserve other project styles as needed) */
-:root {
-  --brand: #ff6f61;
-  --brand-dark: #e6554f;
-  --muted: #6b6b6b;
+/* Theme variables (unchanged values can be tweaked later) */
+:root{
+  --bg:#fff9f2;
+  --card:#fff;
+  --accent:#f6b93b;
+  --accent-dark:#e0a22d;
+  --muted:#6b6b6b;
+  --text:#1f1f1f;
+  --bee-black:#1a1200;
+  --radius:12px;
+  --shadow:0 10px 30px rgba(30,30,30,0.08);
+  --container-width:1100px;
+  --gutter:1rem;            /* base horizontal padding */
+  --stack:0.75rem;          /* vertical spacing unit */
+  --grid-gap:1rem;          /* gap between grid items */
+  --btn-padding:0.62rem 0.9rem;
+  --btn-radius:10px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* Button-like link */
-.link-btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: var(--brand);
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  border: 1px solid transparent;
-  transition: background 0.15s ease, transform 0.06s ease;
-  cursor: pointer;
-  font-weight: 600;
+/* Dark theme surfaces */
+[data-theme="dark"]{
+  --bg:#050505;
+  --card:#0b0b0d;
+  --muted:#9aa3a5;
+  --text:#e7eef2;
+  --toast-bg:#f6b93b;
+  --toast-text:#1a1200;
+  --shadow:0 10px 30px rgba(0,0,0,0.6);
 }
 
-.link-btn:hover,
-.link-btn:focus {
-  background: var(--brand-dark);
-  transform: translateY(-1px);
+/* Reset / base */
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  min-height:100%;
+  background-color:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
 }
 
-.link-btn:active {
-  transform: translateY(0);
+/* Container: tighter, consistent gutters */
+.container{
+  max-width:var(--container-width);
+  margin:0 auto;
+  padding:calc(var(--gutter) * 1.25);
 }
 
-/* Ghost / outline link */
-.link-ghost {
-  display: inline-block;
-  padding: 0.45rem 0.9rem;
-  background: transparent;
-  color: var(--brand-dark);
-  border-radius: 6px;
-  border: 1px solid var(--brand);
-  text-decoration: none;
-  transition: background 0.12s ease, color 0.12s ease;
-  cursor: pointer;
+/* Header: shorter and tighter */
+.header{
+  position:sticky;
+  top:0;
+  z-index:60;
+  background:transparent;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--gutter);
+  padding:0.5rem 0;
+  min-height:56px;
+}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--text);font-weight:700}
+
+/* Desktop nav: compact link spacing */
+.nav-desktop{
+  display:flex;
+  gap:.6rem;
+  align-items:center;
+}
+.nav-desktop a{padding:.35rem .5rem;border-radius:8px; text-decoration:none;color:var(--text)}
+
+/* Header actions: consistent button sizing */
+.header-actions{display:flex;gap:.5rem;align-items:center}
+.theme-toggle{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:.35rem .55rem;border-radius:8px;cursor:pointer}
+.cart-btn{background:var(--accent);color:var(--bee-black);padding:var(--btn-padding);border-radius:var(--btn-radius);font-weight:600;display:inline-flex;align-items:center;gap:.5rem;text-decoration:none}
+
+/* Hamburger / mobile toggle */
+.nav-toggle{background:transparent;border:0;padding:.4rem;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer}
+.hamburger{display:inline-block;width:20px;height:2px;background:var(--text);position:relative;transition:transform .18s ease}
+.hamburger::before,.hamburger::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--text);transition:transform .18s ease, top .18s ease, opacity .18s ease}
+.hamburger::before{top:-6px}.hamburger::after{top:6px}
+.hamburger.open{transform:rotate(45deg)}.hamburger.open::before{transform:rotate(90deg);top:0;opacity:0}.hamburger.open::after{transform:rotate(90deg);top:0}
+
+/* Mobile nav overlay */
+.mobile-nav{position:fixed;inset:0;display:none;z-index:70;pointer-events:none}
+.mobile-nav.open{display:block;pointer-events:auto}
+.mobile-nav-inner{position:fixed;left:0;top:0;width:300px;max-width:86%;height:100%;background:var(--card);box-shadow:10px 0 40px rgba(0,0,0,0.18);padding:1rem;display:flex;flex-direction:column;gap:var(--stack);transform:translateX(-6px);animation:slide-in-left .24s ease}
+@keyframes slide-in-left{from{transform:translateX(-8px);opacity:0}to{transform:translateX(0);opacity:1}}
+.mobile-nav-links{display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem}
+.mobile-nav-links a, .mobile-nav-links .link-btn{padding:.6rem .6rem;border-radius:8px;color:var(--text);text-decoration:none}
+.mobile-nav-footer{margin-top:auto;display:flex;gap:.6rem}
+
+/* Hero: centered layout and balanced spacing */
+.hero{display:grid;grid-template-columns:1fr 360px;gap:1rem;align-items:center;padding:1.5rem 0;position:relative;overflow:visible}
+.hero-copy{padding-right:.5rem}
+.hero h1{font-size:1.6rem;margin:0 0 .5rem}
+.hero .tag{color:var(--muted);margin-bottom:var(--stack)}
+.hero-media img{width:100%;height:auto;border-radius:12px;display:block;box-shadow:var(--shadow)}
+
+/* Cards & grid: consistent gaps and card sizing */
+.grid{display:grid;gap:var(--grid-gap)}
+.products-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--grid-gap)}
+
+/* Card: even heights, flexible content layout */
+.card{background:var(--card);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease;min-height:360px}
+.card-media{position:relative;flex:0 0 auto}
+.card-media img{width:100%;height:220px;object-fit:cover;display:block}
+.card-body{padding:1rem;display:flex;flex-direction:column;gap:.6rem;flex:1}
+
+/* Card body layout ensures actions align to bottom */
+.card-body h3{margin:0;font-size:1.05rem}
+.card-body .muted{color:var(--muted);font-size:.95rem}
+.card-actions{display:flex;justify-content:space-between;align-items:center;margin-top:auto;gap:.5rem}
+.card-actions .price{font-weight:700}
+
+/* Buttons unified */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:var(--btn-padding);border-radius:var(--btn-radius);font-weight:600;cursor:pointer;border:1px solid rgba(0,0,0,0.06);text-decoration:none}
+.btn-primary{background:var(--accent);color:var(--bee-black)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(0,0,0,0.08)}
+
+/* Bee mini positioning */
+.bee-mini{position:absolute;right:8px;top:8px;transform:translateY(-6px) translateX(6px) scale(.9);opacity:1;transition:transform .2s ease}
+
+/* Product detail: responsive two-column at larger screens */
+.product-detail{display:grid;grid-template-columns:1fr;gap:1rem}
+@media(min-width:901px){.product-detail{grid-template-columns:420px 1fr}}
+
+/* Cart & forms: spacing */
+.cart-list{display:grid;gap:.75rem}
+.cart-item{display:flex;gap:.75rem;align-items:center;padding:.6rem;border-radius:10px;background:var(--card)}
+.form{background:var(--card);padding:1rem;border-radius:12px;box-shadow:var(--shadow)}
+.input,textarea,select{width:100%;padding:.6rem;border-radius:8px;border:1px solid rgba(0,0,0,0.08);font:inherit}
+
+/* Toasts */
+.toast-container{position:fixed;right:1rem;bottom:1.25rem;display:flex;flex-direction:column;gap:8px;z-index:120;max-width:360px}
+.toast{display:flex;align-items:flex-start;gap:12px;background:var(--toast-bg);color:var(--toast-text);padding:10px 12px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);min-width:220px;border-left:4px solid rgba(0,0,0,0.08);transform-origin:bottom right;animation:toast-in .28s ease}
+@keyframes toast-in{from{transform:translateY(10px) scale(.98);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+
+/* Footer spacing */
+.footer{padding:1rem 0;margin-top:2rem;border-top:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.footer .container{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* Bottom nav reserved space on small screens */
+@media(max-width:900px){
+  .nav-desktop{display:none}
+  .nav-toggle{display:inline-flex}
+  .hero{grid-template-columns:1fr;text-align:center}
+  .hero-media{order:2}
+  .main-content{padding-bottom:92px} /* leave room for bottom nav */
+  .card-media img{height:180px;object-fit:cover}
+  .btn{padding:.6rem .85rem}
+  .footer{padding:.9rem 0}
 }
 
-.link-ghost:hover,
-.link-ghost:focus {
-  background: rgba(255,111,97,0.06);
+/* Desktop specifics */
+@media(min-width:901px){
+  .nav-desktop{display:flex}
+  .mobile-nav{display:none}
+  .card{min-height:380px}
+  .card-media img{height:220px}
+  .hero{grid-template-columns:1fr 420px}
 }
 
-/* Keep anchor base styles minimal to avoid accidental overrides */
-a {
-  color: inherit;
-  text-decoration: none;
+/* Small screens */
+@media(max-width:420px){
+  .container{padding:.75rem}
+  .hero h1{font-size:1.25rem}
+  .mobile-nav-inner{width:92%}
 }
 
-/* Utility spacing used by header / buttons */
-.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+/* Focus and accessibility */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;padding:.5rem .75rem;background:var(--accent);color:var(--bee-black);border-radius:8px;z-index:60}
+:focus{outline:none}
+a:focus,button:focus,input:focus,textarea:focus{outline:3px solid rgba(246,185,59,0.25);outline-offset:2px}
+
+/* Utilities */
+.text-muted{color:var(--muted)}
+.center{text-align:center}
+.hidden{display:none!important}
