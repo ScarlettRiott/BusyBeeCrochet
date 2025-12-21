@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
+# Script to fetch placeholder images from Unsplash for local development
+# NOTE: Use responsibly and follow Unsplash API guidelines. This script is optional.
 set -euo pipefail
-
-# Script to fetch a few curated images from Unsplash Source and save them into public/assets
-# This uses the unsplash source endpoint which redirects to a random image for a given query.
-# It does not require an API key but results are random. For production use consider the official API.
-
-OUT_DIR="public/assets"
+OUT_DIR="public/assets/unsplash"
 mkdir -p "$OUT_DIR"
 
-echo "Downloading Unsplash images to $OUT_DIR..."
+# Sample queries and filenames
+declare -A IMAGES=(
+  [yarn]="yarn.jpg"
+  [crochet]="crochet.jpg"
+  [handmade]="handmade.jpg"
+)
 
-curl -L -o "$OUT_DIR/owl.jpg" "https://source.unsplash.com/1600x900/?owl"
-curl -L -o "$OUT_DIR/pouf.jpg" "https://source.unsplash.com/1600x900/?pouf,ottoman"
-curl -L -o "$OUT_DIR/beanie.jpg" "https://source.unsplash.com/1600x900/?beanie,hat"
+for q in "${!IMAGES[@]}"; do
+  file="$OUT_DIR/${IMAGES[$q]}"
+  echo "Fetching sample image for: $q -> $file"
+  # Use a simple, no-auth random photo URL from Unsplash Source (no API key)
+  curl -s -L "https://source.unsplash.com/collection/895539/800x600/?$q" -o "$file" || echo "Failed to fetch $q"
+done
 
-echo "Done. Downloaded:"
-ls -lh "$OUT_DIR" | sed -n '1,200p'
-
-# Notes:
-# - These are random images and will change over time. If you need stable images, store fixed files in the repo
-#   or use the Unsplash API with proper attribution.
-# - To make this executable: chmod +x scripts/fetch-unsplash-images.sh
+echo "Done. Images saved to $OUT_DIR";

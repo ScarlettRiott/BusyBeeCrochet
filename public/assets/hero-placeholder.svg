@@ -1,4 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
-  <rect width="100%" height="100%" fill="#f7e9d2"/>
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b8860b" font-size="40">Hero placeholder</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-labelledby="heroTitle">
+  <title id="heroTitle">Assorted crochet pieces in warm colors</title>
+  <rect width="100%" height="100%" fill="#fff5f7"/>
+  <g transform="translate(60,40)">
+    <ellipse cx="180" cy="200" rx="160" ry="90" fill="#fff" stroke="#ffe6ee"/>
+    <g transform="translate(30,10)">
+      <rect x="0" y="40" width="120" height="80" rx="12" fill="#ffefef"/>
+      <circle cx="210" cy="110" r="60" fill="#fff2e8"/>
+    </g>
+    <text x="20" y="30" font-family="Inter,Arial" font-size="20" fill="#d04f75">Handmade with care</text>
+  </g>
 </svg>

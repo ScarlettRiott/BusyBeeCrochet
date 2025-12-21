@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-labelledby="poufTitle">
-  <title id="poufTitle">Pouf placeholder</title>
-  <rect width="100%" height="100%" fill="#fffaf0"/>
-  <ellipse cx="200" cy="200" rx="140" ry="60" fill="#c97b63"/>
-  <ellipse cx="200" cy="170" rx="120" ry="45" fill="#e7b89a"/>
-  <rect x="140" y="230" width="120" height="30" rx="10" fill="#c97b63"/>
-  <text x="200" y="360" font-family="Arial,Helvetica,sans-serif" font-size="18" text-anchor="middle" fill="#8b5d4b">Pouf (placeholder)</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" role="img" aria-labelledby="poufTitle">
+  <title id="poufTitle">Crochet pouf</title>
+  <rect width="100%" height="100%" fill="#fff"/>
+  <g transform="translate(10,10)">
+    <ellipse cx="70" cy="60" rx="60" ry="40" fill="#fff7f3" stroke="#ffdcd7"/>
+    <path d="M15 60c20-10 40-14 100 0" fill="#fff1ee"/>
+    <text x="10" y="20" font-family="Inter,Arial" font-size="12" fill="#d46b7f">Cozy pouf</text>
+  </g>
 </svg>

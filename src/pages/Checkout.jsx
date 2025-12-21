@@ -1,55 +1,54 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import { formatCurrency } from '../utils/format';
+import React from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import '../styles.css';
 
-export default function Checkout() {
-  const { items, getSubtotal, clearCart } = useCart();
-  const navigate = useNavigate();
-  const [form, setForm] = useState({ name:'', email:'', notes:'' });
-  const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState('');
-  const endpoint = process.env.REACT_APP_FORMSPREE_ENDPOINT || 'https://formspree.io/f/your-form-id';
-
-  function buildOrderText(){ return items.map(it=>`${it.qty} x ${it.title} — $${(it.price*it.qty).toFixed(2)}`).join('\n'); }
-
-  async function handleSubmit(e){
-    e.preventDefault();
-    if(!form.name||!form.email){ setStatus('Please provide name & email'); return; }
-    if(items.length===0){ setStatus('Cart is empty'); return; }
-    setSending(true); setStatus('');
-    try {
-      const payload = { name: form.name, email: form.email, message: `Order:\n${buildOrderText()}\n\nNotes:\n${form.notes}` };
-      const res = await fetch(endpoint, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-      if(res.ok){ setStatus('Order sent!'); clearCart(); setTimeout(()=>navigate('/'),2000); } else { setStatus('Failed to send order'); }
-    } catch(err){ setStatus(`Error: ${err.message}`); } finally { setSending(false); }
-  }
-
+export default function Checkout(){
   return (
-    <div className="container">
-      <h2>Checkout</h2>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 360px',gap:16}}>
-        <form className="form" onSubmit={handleSubmit}>
-          <label>Name<input className="input" value={form.name} onChange={(e)=>setForm({...form,name:e.target.value})} required /></label>
-          <label>Email<input className="input" type="email" value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})} required /></label>
-          <label>Notes<textarea className="input" rows="6" value={form.notes} onChange={(e)=>setForm({...form,notes:e.target.value})} /></label>
-          <div style={{marginTop:12}}>
-            <button className="btn btn-primary" type="submit" disabled={sending}>{sending ? 'Sending…' : `Send Order — ${formatCurrency(getSubtotal())}`}</button>
-          </div>
-          {status && <p style={{marginTop:12,color: status.startsWith('Order sent') ? 'green' : 'crimson'}}>{status}</p>}
-        </form>
+    <div>
+      <Header />
+      <main className="container" role="main">
+        <h1>Checkout</h1>
+        <form onSubmit={(e)=>{e.preventDefault();alert('This demo does not process payments.')}} style={{display:'grid',gap:12,maxWidth:680}}>
+          <fieldset style={{border:'1px solid #f0f0f0',padding:12,borderRadius:8}}>
+            <legend style={{fontWeight:700}}>Shipping</legend>
+            <label htmlFor="fullName">Full name</label>
+            <input id="fullName" name="fullName" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
 
-        <aside>
-          <div className="form">
-            <h3>Order summary</h3>
-            {items.length===0 ? <p>Your cart is empty.</p> : items.map((it,i)=>(
-              <div key={i} style={{display:'flex',justifyContent:'space-between',padding:'6px 0'}}>{it.qty} × {it.title}<div>{formatCurrency(it.price*it.qty)}</div></div>
-            ))}
-            <hr />
-            <div style={{display:'flex',justifyContent:'space-between',fontWeight:700}}>Subtotal<div>{formatCurrency(getSubtotal())}</div></div>
+            <label htmlFor="address">Address</label>
+            <input id="address" name="address" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+
+            <label htmlFor="city">City</label>
+            <input id="city" name="city" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+
+            <label htmlFor="zip">ZIP / Postal code</label>
+            <input id="zip" name="zip" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+          </fieldset>
+
+          <fieldset style={{border:'1px solid #f0f0f0',padding:12,borderRadius:8}}>
+            <legend style={{fontWeight:700}}>Payment</legend>
+            <label htmlFor="card">Card number</label>
+            <input id="card" name="card" inputMode="numeric" required placeholder="4242 4242 4242 4242" style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+
+            <div style={{display:'flex',gap:8}}>
+              <div style={{flex:1}}>
+                <label htmlFor="exp">Exp</label>
+                <input id="exp" name="exp" placeholder="MM/YY" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+              </div>
+              <div style={{flex:1}}>
+                <label htmlFor="cvc">CVC</label>
+                <input id="cvc" name="cvc" inputMode="numeric" required style={{padding:10,borderRadius:8,border:'1px solid #eee'}} />
+              </div>
+            </div>
+          </fieldset>
+
+          <div style={{display:'flex',gap:8}}>
+            <button className="btn" type="submit">Complete order</button>
+            <a href="/cart" className="btn secondary">Back to cart</a>
           </div>
-        </aside>
-      </div>
+        </form>
+      </main>
+      <Footer />
     </div>
   );
 }

@@ -1,32 +1,18 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { ThemeContext } from '../context/ThemeContext';
+import React from 'react';
+import '../styles.css';
 
-export default function Footer() {
-  const { theme } = useContext(ThemeContext || {});
-
-  const handleInternalClick = (e) => {
-    // Close mobile menu if present
-    try {
-      window.dispatchEvent(new Event('closeMobileMenu'));
-    } catch (err) {}
-  };
-
+export default function Footer(){
   return (
-    <footer className={`site-footer ${theme || ''}`}>
-      <div className="container footer-inner">
-        <div className="footer-links">
-          <Link to="/" onClick={handleInternalClick}>Home</Link>
-          <Link to="/shop" onClick={handleInternalClick}>Shop</Link>
-          <Link to="/about" onClick={handleInternalClick}>About</Link>
+    <footer className="container footer" role="contentinfo">
+      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:12}}>
+        <div>
+          <strong>Busy Bee Crochet</strong>
+          <div style={{color:'var(--muted)'}}>Small-batch handmade goods — shipped with care.</div>
         </div>
-
-        <div className="social-links">
-          <a href="https://www.etsy.com/" target="_blank" rel="noopener noreferrer">Etsy</a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <div style={{textAlign:'right',color:'var(--muted)'}}>
+          <div>Follow us</div>
+          <a href="#" style={{color:'var(--accent-600')}} aria-label="Instagram">@busybeecrochet</a>
         </div>
-
-        <div className="copyright">© {new Date().getFullYear()} Busy Bee Crochet</div>
       </div>
     </footer>
   );

@@ -1,36 +1,54 @@
 import React from 'react';
-import products from '../data/products';
+import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-import { Link } from 'react-router-dom';
-import Bee from '../components/Bee';
+import Footer from '../components/Footer';
+import products from '../data/products';
+import '../styles.css';
 
-export default function Home() {
+export default function Home(){
   return (
     <div>
-      <section className="hero container">
-        <div className="hero-copy">
-          <h1>Handmade with Love — Busy Bee Crochet</h1>
-          <p className="tag">Unique amigurumi, cozy home goods, and custom orders — crafted stitch by stitch.</p>
-          <p>
-            <Link className="btn btn-primary" to="/#products">Shop Bestsellers</Link>
-            <Link className="btn btn-outline" to="/#contact" style={{marginLeft:8}}>Request a Custom Order</Link>
-          </p>
-        </div>
-        <div className="hero-media">
-          <img src="/assets/hero-placeholder.svg" alt="Assortment of crochet items" style={{width:'100%', borderRadius:12}} />
-        </div>
-        <Bee className="bee-fly-hero" size={48} />
-        <Bee className="bee-static" size={36} />
-      </section>
+      <Header />
+      <main className="container" role="main">
+        <section className="hero" aria-labelledby="hero-heading">
+          <div className="hero-card">
+            <div style={{flex:1}}>
+              <h1 id="hero-heading">Polished crochet for everyday moments</h1>
+              <p>Thoughtfully made, ready to love. Explore small-batch hats, toys, and home pieces crafted with sustainable yarns.</p>
+              <p><a href="/products" className="btn">Shop new arrivals</a></p>
+            </div>
+            <img src="/assets/hero-placeholder.svg" alt="Assorted crochet pieces" />
+          </div>
+        </section>
 
-      <section className="container" aria-labelledby="products">
-        <h2 id="products">Shop Bestsellers</h2>
-        <p style={{color:'var(--muted)'}}>Small-batch favorites — perfect for gifts and home decor.</p>
-        <div className="grid products-grid">
-          {products.map(p => <ProductCard key={p.id} product={p} />)}
-        </div>
-        <p style={{marginTop:12}}><Link to="/cart" className="btn btn-outline">View Cart</Link></p>
-      </section>
+        <section aria-labelledby="featured-heading" style={{marginTop:20}}>
+          <h2 id="featured-heading">Featured products</h2>
+          <div className="products-grid" role="list">
+            {products.map(p=> (
+              <div role="listitem" key={p.id}><ProductCard product={p} /></div>
+            ))}
+          </div>
+        </section>
+
+        <section style={{marginTop:20}} aria-labelledby="about-heading">
+          <h2 id="about-heading">About our shop</h2>
+          <div className="card-grid" style={{marginTop:12}}>
+            <div className="product-card">
+              <div style={{fontWeight:700}}>Sustainable materials</div>
+              <div style={{color:'var(--muted)'}}>We choose durable, low-impact yarns to make pieces that last.</div>
+            </div>
+            <div className="product-card">
+              <div style={{fontWeight:700}}>Ethical small-batch</div>
+              <div style={{color:'var(--muted)'}}>Handmade in limited runs to reduce waste and keep quality high.</div>
+            </div>
+            <div className="product-card">
+              <div style={{fontWeight:700}}>Local pickup</div>
+              <div style={{color:'var(--muted)'}}>Pick up or ship — flexible options at checkout.</div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

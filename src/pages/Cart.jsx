@@ -1,46 +1,40 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import products from '../data/products';
-import { formatCurrency } from '../utils/format';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import '../styles.css';
 
-export default function CartPage() {
-  const { items, clearCart, getSubtotal } = useCart();
-  const navigate = useNavigate();
-
-  if (!items || items.length === 0) {
-    return <div className="container"><h2>Your cart is empty</h2><p><Link to="/">Continue shopping</Link></p></div>;
-  }
-
+export default function Cart(){
   return (
-    <div className="container">
-      <h2>Your Cart</h2>
-      <div style={{display:'grid',gap:8}}>
-        {items.map((it,i)=> {
-          const prod = products.find(p=>p.id===it.productId) || {};
-          return (
-            <div key={i} style={{display:'flex',gap:8,alignItems:'center',padding:8,background:'var(--card)',borderRadius:8}}>
-              <img src={it.image||prod.thumbnail||prod.image} alt={it.title} style={{width:80,height:80,objectFit:'cover',borderRadius:8}} />
-              <div style={{flex:1}}>
-                <div style={{fontWeight:700}}>{it.title}</div>
-                <div style={{color:'var(--muted)'}}>{prod.short}</div>
-                <div style={{marginTop:6}}>Qty: {it.qty}</div>
+    <div>
+      <Header />
+      <main className="container" role="main">
+        <h1>Your cart</h1>
+        <p style={{color:'var(--muted)'}}>Cart persistence is not implemented in this static demo. Items added during a session should be stored in local state.</p>
+
+        <div style={{display:'grid',gap:12,marginTop:12}}>
+          <div className="product-card">
+            <img src="/assets/beanie.svg" alt="Beanie" />
+            <div className="product-info">
+              <h3 className="product-title">Cuddly Alpine Beanie</h3>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <div style={{color:'var(--muted)'}}>$28.00</div>
+                <div><label className="visually-hidden">Quantity</label><input type="number" min="1" defaultValue="1" style={{width:64,padding:8,borderRadius:8,border:'1px solid #eee'}}/></div>
               </div>
-              <div style={{textAlign:'right'}}>{formatCurrency(it.price * it.qty)}</div>
             </div>
-          );
-        })}
-      </div>
-      <div style={{marginTop:16, display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-        <div><button className="btn btn-outline" onClick={() => { if (confirm('Clear cart?')) clearCart(); }}>Clear Cart</button></div>
-        <div>
-          <strong>Subtotal: {formatCurrency(getSubtotal())}</strong>
-          <div style={{marginTop:8}}>
-            <button className="btn btn-primary" onClick={() => navigate('/checkout')} style={{marginRight:8}}>Checkout</button>
-            <Link to="/" className="btn btn-outline">Continue Shopping</Link>
+          </div>
+
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div style={{fontWeight:700}}>Subtotal</div>
+            <div style={{fontWeight:700}}>$28.00</div>
+          </div>
+
+          <div style={{display:'flex',gap:12}}>
+            <a href="/checkout" className="btn">Proceed to checkout</a>
+            <a href="/products" className="btn secondary">Continue shopping</a>
           </div>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
